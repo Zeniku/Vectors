@@ -3,7 +3,8 @@ class VectorWindow {
     vecHandler,
     parent = document.body,
     x = 10,
-    y = 10
+    y = 10,
+    width = 200
   } = {}) {
 
     this.vecHandler = vecHandler;
@@ -13,15 +14,16 @@ class VectorWindow {
       title: "Add Vector",
       x,
       y,
-      width: 260,
-      closable: false
+      width: width,
+      closable: false,
+      collapsible: true
     });
 
     // Internal state
     this.mode = "components"; // "components" | "polar"
 
-    this.x = 50;
-    this.y = 50;
+    this.x = 0;
+    this.y = 0;
     this.angle = 0;
     this.length = Math.hypot(this.x, this.y);
 
@@ -35,7 +37,7 @@ class VectorWindow {
     });
 
     this.inputsContainer = document.createElement("div");
-    this.window.panel.content.appendChild(this.inputsContainer);
+    this.window.add(this.inputsContainer);
 
     this.renderInputs();
 
@@ -77,7 +79,7 @@ class VectorWindow {
           this.syncPolar();
         }
       });
-
+      this.syncPolar();
     } else {
       new NumberInput({
         parent: this.inputsContainer,
@@ -101,6 +103,7 @@ class VectorWindow {
           this.syncComponents();
         }
       });
+      this.syncComponents();
     }
   }
 
@@ -114,8 +117,12 @@ class VectorWindow {
     this.x = Math.cos(rad) * this.length;
     this.y = Math.sin(rad) * this.length;
   }
-
+  
   addVector() {
-    this.vecHandler.add(new Vec(this.x, this.y));
+    const hue = Math.floor(Math.random() * 360);
+    const color = `hsl(${hue}, 80%, 60%)`;
+    let v = new Vec(this.x, this.y)
+    v.color = color
+    this.vecHandler.add(v);
   }
 }

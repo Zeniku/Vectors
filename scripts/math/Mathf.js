@@ -82,14 +82,19 @@ class Mathf {
         this.sin(r) * p[1] + this.cos(r) * p[2]
       ]
   }
+  static getZoomV(){
+    const max = global.results.vec.getLength()
+    if(max <= 0) return; 
+    return global.zoomv = Math.min(canvas.clientWidth, canvas.clientHeight) /2/ max
+  }
   static toCanvasCoord(x,y, zoomv){
-      const cx = canvas.clientWidth/2 + x * zoomv;
-      const cy = canvas.clientHeight/2 - y * zoomv;
+      const cx = (canvas.width/2) + x * zoomv;
+      const cy = (canvas.height/2 ) - y* zoomv;
       return {x:cx,y:cy};
     }
     static fromCanvasCoord(cx,cy, zoomv){
-      const x = (cx - canvas.clientWidth/2)/zoomv;
-      const y = (canvas.clientHeight/2 - cy)/zoomv;
+      const x = (cx - canvas.width/2)/zoomv;
+      const y = (canvas.height/2 - cy)/zoomv;
       return {x,y};
     }
 }

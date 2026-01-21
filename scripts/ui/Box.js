@@ -12,3 +12,4 @@ class Box {
     if(parent) parent.appendChild(this.el);
   }
 }
+

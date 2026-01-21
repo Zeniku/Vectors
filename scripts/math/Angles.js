@@ -10,7 +10,7 @@ class Angles {
     return this.angle(p1.x, p1.y, p2.x, p2.y)
   }
   static angleRad(x1, y1, x2, y2){
-    return Mathf.atan2(x2 - x1, y2 - y1);
+    return Math.atan2(x2 - x1, y2 - y1);
   }
   static trnsx(angle, len){
     return len * Math.cos(angle * Mathf.degToRad)

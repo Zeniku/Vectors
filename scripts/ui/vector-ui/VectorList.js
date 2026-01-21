@@ -1,44 +1,34 @@
-class VectorList {
-  constructor({
-    vecHandler,
-    parent = document.body,
-    title = "Vector List",
-    x = 100,
-    y = 100,
-    width = 260
-  } = {}) {
+class VectorList extends WindowPanel{
+  constructor(config) {
+    super(Object.assign({
+    parent: document.body,
+    title: "Vector List",
+    x: 10,
+    y: 280,
+    width: 200,
+    collapsible: true
+    }, config))
+    
+    this.vecHandler = config.vecHandler;
+    
 
-    this.vecHandler = vecHandler;
-
-    this.window = new WindowPanel({
-      parent,
-      title,
-      x,
-      y,
-      width,
-      closable: false,
-      collapsible: true
-    });
 
     this.render();
   }
 
   render() {
     // Clear existing
-    this.window.panel.content.innerHTML = "";
+    this.panel.content.innerHTML = "";
 
     this.vecHandler.vecDataList.forEach((vec, i) => {
 
       const container = new Box({
-        parent: this.window.panel.content,
+        parent: this.panel.content,
         className: "vectorItem"
       }).el;
 
-      container.style.display = "flex";
       container.style.justifyContent = "space-between";
-      container.style.alignItems = "center";
-      container.style.marginBottom = "4px";
-
+      
       // Checkbox
       const cb = document.createElement("input");
       cb.type = "checkbox";

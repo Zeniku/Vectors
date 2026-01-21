@@ -72,6 +72,12 @@ class Vec {
 		this.y = Mathf.sinDeg(angle) * length;
 		return this;
 	}
+	setAngleExact(angle) {
+		var length = this.getLength();
+		this.x = Math.cos(angle * Math.PI / 180) * length;
+		this.y = Math.sin(angle * Math.PI / 180) * length;
+		return this;
+	}
 	getAngle() {
 		return Math.atan2(this.y, this.x);
 	}

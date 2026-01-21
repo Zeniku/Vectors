@@ -4,16 +4,18 @@ class WindowPanel {
     title = "Vector Addition",
     x = 10,
     y = 220,
-    width = 260,
+    width = 200,
     closable = false,
-    collapsible = false
+    collapsible = false,
+    collapsed = false
   } = {}) {
 
     this.inputs = [];
     this.sliders = [];
     this.texts = []
-    
-    this.collapsed = false;
+    this.collapsible = collapsible
+    this.closable = closable
+    this.collapsed = collapsed
 
     // Base panel
     this.panel = new Panel({
@@ -33,10 +35,12 @@ class WindowPanel {
     this.header = this.panel.header;
 
     // Collapse button
-    if (collapsible && this.header) {
+    if (this.collapsible && this.header) {
       this.collapseBtn = document.createElement("span");
       this.collapseBtn.className = "panelCollapse";
       this.collapseBtn.textContent = "▾";
+      this.collapseBtn.style.marginLeft = "auto";
+
       this.header.appendChild(this.collapseBtn);
 
       this.collapseBtn.onclick = e => {
@@ -46,7 +50,7 @@ class WindowPanel {
     }
 
     // Close button
-    if (closable && this.header) {
+    if (this.closable && this.header) {
       this.closeBtn = document.createElement("span");
       this.closeBtn.className = "panelClose";
       this.closeBtn.textContent = "✕";
@@ -59,6 +63,10 @@ class WindowPanel {
     }
 
     // Enable dragging via panel header
+    if (this.header) {
+  this.header.style.display = "flex";
+  this.header.style.alignItems = "center";
+}
     if (this.header) {
       this.#enableDrag(this.panel.root.el, this.header);
     }
@@ -92,16 +100,16 @@ class WindowPanel {
 
     this.inputs.push(input);
   }
-  addText(text) {
+  addText(text, index) {
     const el = document.createElement("div");
     el.className = "panelText";
     el.textContent = text;
     this.panel.content.appendChild(el);
-    this.texts.push(el)
+    if(index) this.texts[index] = el; else this.texts.push(el)
     return el;
   }
   setText(index, text){
-    if(!this.texts[index]) this.addText(text);
+    if(!this.texts[index]) this.addText(text, index);
     this.texts[index].textContent = text
   }
   addSliderInput(label, min, max, value = 1, onChange) {
@@ -117,6 +125,16 @@ class WindowPanel {
 
     onChange(value);
     this.sliders.push(slider);
+  }
+  addButton(label, onClick){
+    const input = new Button({
+      parent: this.panel.content,
+      text: label,
+      onClick
+    });
+
+    this.inputs.push(input);
+    //onClick()
   }
 
   #enableDrag(root, handle) {
