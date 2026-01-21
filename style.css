@@ -67,7 +67,7 @@ html, body {
 /* Panel window */
 .panel {
   position: fixed;
-  min-width: 220px;
+  min-width: 170px;
   background: rgba(20, 20, 30, 0.95);
   border: 1px solid #334155;
   border-radius: 6px;
@@ -78,6 +78,7 @@ html, body {
 /* Panel title */
 .panelHeader {
   padding: 6px 10px;
+  justify-content: space-between;
   font-weight: bold;
   background: #1e293b;
   border-bottom: 1px solid #334155;
@@ -117,6 +118,8 @@ input[type="range"] {
   display: flex;
   justify-content: space-between;
   user-select: none;
+  align-items: center;
+  cursor: grab;
 }
 
 .windowContent {
@@ -136,15 +139,55 @@ input[type="range"] {
   cursor: pointer;
 }
 
-.windowHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: grab;
-}
-
 .windowCollapse {
   cursor: pointer;
-  padding: 0 6px;
+  padding: 0px 6px;
   user-select: none;
+  align-items: center;
+}
+
+.panelRoot {
+  background: #1E293B;
+  border: 1px solid #334155;
+  color: #CBD5E1;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+}
+
+.panelHeader {
+  background: #0F172A;
+  color: #E5E7EB;
+  padding: 6px 10px;
+  font-weight: 600;
+  border-bottom: 1px solid #334155;
+  user-select: none;
+}
+
+.panelCollapse,
+.panelClose {
+  cursor: pointer;
+  padding: 0 6px;
+  color: #CBD5E1;
+  transition: color 0.15s ease, transform 0.1s ease;
+}
+
+.panelCollapse:hover {
+  color: #60A5FA;
+}
+
+.panelClose:hover {
+  color: #F87171;
+  transform: scale(1.1);
+}
+
+.panelText {
+  padding: 4px 8px;
+  color: #CBD5E1;
+}
+
+.vectorItem {
+  display: flex;
+  justifyContent: "space-between";
+  alignItems: center;
+  marginBottom: 4px;
 }
