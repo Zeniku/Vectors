@@ -1,11 +1,9 @@
 class Panel {
-  constructor({
-    parent = document.body,
-    title = ""
-  } = {}) {
+  constructor({ parent = document.body, title = "" } = {}) {
     this.root = new Box({ parent, className: "panel" });
 
-    if(title){
+    // "title" is strictly for the header of a panel/window
+    if (title) {
       this.header = document.createElement("div");
       this.header.className = "panelHeader";
       this.header.textContent = title;

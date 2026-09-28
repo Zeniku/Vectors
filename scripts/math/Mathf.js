@@ -66,7 +66,7 @@ class Mathf {
   }
   static rotatePY(p, r){
     p[1] = this.cos(r) * p[1] - this.sin(r) * p[2]
-    p[1] = this.sin(r) * p[1] + this.cos(r) * p[2]
+    p[2] = this.sin(r) * p[1] + this.cos(r) * p[2]
   }
   static rotateX(p, r) {
     return [
@@ -82,16 +82,19 @@ class Mathf {
         this.sin(r) * p[1] + this.cos(r) * p[2]
       ]
   }
-  static getZoomV(){
-    const max = global.results.vec.getLength()
-    if(max <= 0) return; 
-    return global.zoomv = Math.min(canvas.clientWidth, canvas.clientHeight) /2/ max
+  static getZoomV(maxLen = global.results.vec.getLength() ,canvasWidth = canvas.width, canvasHeight = canvas.height, padding = 0.9) {
+    if (maxLen <= 0) return 1; 
+    const minDim = Math.min(canvasWidth, canvasHeight);
+    // Use padding so the drawing isn't hugging the edge
+    return (minDim / 2 / maxLen) * padding;
   }
-  static toCanvasCoord(x,y, zoomv){
-      const cx = (canvas.width/2) + x * zoomv;
-      const cy = (canvas.height/2 ) - y* zoomv;
-      return {x:cx,y:cy};
-    }
+
+  static toCanvasCoord(x, y, zoomv, canvasWidth = canvas.width, canvasHeight = canvas.height) {
+    return {
+      x: (canvasWidth / 2) + x * zoomv,
+      y: (canvasHeight / 2) - y * zoomv // Inverted Y for screen space
+    };
+  }
     static fromCanvasCoord(cx,cy, zoomv){
       const x = (cx - canvas.width/2)/zoomv;
       const y = (canvas.height/2 - cy)/zoomv;

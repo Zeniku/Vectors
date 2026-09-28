@@ -1,28 +1,10 @@
 class Slider {
-  constructor({
-    parent,
-    min = 0,
-    max = 1,
-    step = 0.01,
-    value = 1,
-    label = "",
-    labelPosition = "side", // "top" or "side"
-    onInput = () => {}
-  } = {}) {
-
+  constructor({ parent, label = "", min = 0, max = 1, step = 0.01, value = 1, onChange = () => {} } = {}) {
     this.box = new Box({ parent }).el;
-
     this.container = document.createElement("div");
-    this.container.style.display = "flex";
-    this.container.style.gap = "0.5em";
+    Object.assign(this.container.style, { display: "flex", gap: "0.5em", alignItems: "center" });
 
-    if (labelPosition === "top") {
-      this.container.style.flexDirection = "column";
-    } else {
-      this.container.style.flexDirection = "row";
-      this.container.style.alignItems = "center";
-    }
-
+    // "label" is strictly the text identifying this specific input
     if (label) {
       this.label = document.createElement("div");
       this.label.textContent = label;
@@ -36,14 +18,25 @@ class Slider {
     this.input.max = max;
     this.input.step = step;
     this.input.value = value;
+    Object.assign(this.input.style, { flex: "1", minWidth: "0" });
 
-    // 🔑 IMPORTANT FIX
-    this.input.style.flex = "1";
-    this.input.style.minWidth = "0";
+    this.onChange = onChange;
+    
+    // Trigger callback when user interacts
+    this.input.oninput = () => this.onChange(this.value);
 
     this.container.appendChild(this.input);
     this.box.appendChild(this.container);
+  }
 
-    this.input.oninput = () => onInput(parseFloat(this.input.value));
+  get value() {
+    return parseFloat(this.input.value);
+  }
+
+  // Use silent = true when updating FROM the game loop to avoid feedback loops
+  setValue(val, silent = false) {
+    this.input.value = val;
+    if (!silent) this.onChange(this.value);
   }
 }
+
